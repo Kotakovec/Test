@@ -1,7 +1,7 @@
 {
     "name": "Kotak OS",
     "short_name": "Kotak OS",
-    "start_url": "/",
+    "start_url": "/WebOS/index.html",
     "display": "standalone",
     "background_color": "#f0f0f0",
     "theme_color": "#4CAF50",
