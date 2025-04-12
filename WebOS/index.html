@@ -3,49 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#0078d7">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <title>KotakOS</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
-    <link rel="icon" href="icon.png" sizes="192x192">
+    <title>Pokračovat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            text-align: center;
+        }
+        .btn {
+            padding: 12px 24px;
+            font-size: 18px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-    <div class="phone">
-        <div class="status-bar">
-            <span class="time">12:30</span>
-            <div class="status-icons">
-                <span class="signal">📶</span>
-                <span class="wifi">📡</span>
-                <span class="battery">🔋 85%</span>
-            </div>
-        </div>
-        
-        <div class="home-screen">
-            <div class="app-grid">
-                <!-- Aplikace budou přidány JavaScriptem -->
-            </div>
-        </div>
-        
-        <div class="dock">
-            <div class="app-icon" data-app="phone">📞</div>
-            <div class="app-icon" data-app="messages">💬</div>
-            <div class="app-icon" data-app="browser">🌐</div>
-            <div class="app-icon" data-app="settings">⚙️</div>
-        </div>
+    <div class="container">
+        <h1>Vítejte na naší stránce</h1>
+        <p>Pro pokračování klikněte na tlačítko níže</p>
+        <button class="btn" onclick="window.location.href='https://website6490820.nicepage.io/'">Pokračovat</button>
     </div>
-    
-    <div class="app-window hidden" id="app-window">
-        <div class="app-header">
-            <span class="app-title">Aplikace</span>
-            <button class="close-app">✕</button>
-        </div>
-        <div class="app-content">
-            <!-- Obsah aplikace se načte dynamicky -->
-        </div>
-    </div>
-    
-    <script src="script.js"></script>
 </body>
 </html>
