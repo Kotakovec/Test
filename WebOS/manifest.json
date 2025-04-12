@@ -1,6 +1,6 @@
 {
-    "name": "Pokračovat App",
-    "short_name": "Pokračovat",
+    "name": "Kotak OS",
+    "short_name": "Kotak OS",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#f0f0f0",
