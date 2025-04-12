@@ -1,6 +1,6 @@
 {
-    "name": "Můj WebOS",
-    "short_name": "WebOS",
+    "name": "KotakOS",
+    "short_name": "KotakOS",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#111",
