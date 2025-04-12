@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0078d7">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>KotakOS</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icon.png" sizes="192x192">
+</head>
+<body>
+    <div class="phone">
+        <div class="status-bar">
+            <span class="time">12:30</span>
+            <div class="status-icons">
+                <span class="signal">📶</span>
+                <span class="wifi">📡</span>
+                <span class="battery">🔋 85%</span>
+            </div>
+        </div>
+        
+        <div class="home-screen">
+            <div class="app-grid">
+                <!-- Aplikace budou přidány JavaScriptem -->
+            </div>
+        </div>
+        
+        <div class="dock">
+            <div class="app-icon" data-app="phone">📞</div>
+            <div class="app-icon" data-app="messages">💬</div>
+            <div class="app-icon" data-app="browser">🌐</div>
+            <div class="app-icon" data-app="settings">⚙️</div>
+        </div>
+    </div>
+    
+    <div class="app-window hidden" id="app-window">
+        <div class="app-header">
+            <span class="app-title">Aplikace</span>
+            <button class="close-app">✕</button>
+        </div>
+        <div class="app-content">
+            <!-- Obsah aplikace se načte dynamicky -->
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
