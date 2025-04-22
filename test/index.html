@@ -91,7 +91,7 @@
 
     <script>
         // Nastavte cílový odkaz (změňte na váš požadovaný URL)
-        const redirectUrl = "https://example.com";
+        const redirectUrl = "https://www.frcreator.eu/";
         
         // Odpočet a přesměrování
         let seconds = 3;
@@ -101,9 +101,9 @@
             seconds--;
             countdownElement.textContent = seconds;
             
-            if (seconds <= 3) {
+            if (seconds <= 0) {
                 clearInterval(timer);
-                window.location.href = frcreator.eu;
+                window.location.href = redirectUrl;
             }
         }, 1000);
     </script>
