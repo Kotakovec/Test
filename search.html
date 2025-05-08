@@ -7,20 +7,54 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 100px;
+            margin: 0;
+            padding: 0;
             background-color: #f8f9fa;
         }
         
+        /* Navigační lišta */
+        .navbar {
+            display: flex;
+            background-color: #1a1a2e;
+            color: white;
+            padding: 10px 20px;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .nav-button {
+            background: none;
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            margin-right: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .nav-button:hover {
+            background-color: #2a2a3e;
+        }
+        
         .logo {
-            font-size: 48px;
-            margin-bottom: 30px;
-            color: #4285f4;
+            font-weight: bold;
+            margin-right: auto;
+            font-size: 18px;
+        }
+        
+        /* Hlavní obsah */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 50px;
         }
         
         .search-container {
             max-width: 600px;
-            margin: 0 auto;
+            width: 100%;
+            margin-top: 30px;
         }
         
         .search-form {
@@ -64,29 +98,51 @@
             box-shadow: 0 1px 1px rgba(0,0,0,0.1);
         }
         
-        footer {
+        /* Odkazy pod vyhledávacím polem */
+        .quick-links {
             margin-top: 30px;
+            display: flex;
+            gap: 15px;
+        }
+        
+        .quick-link {
+            color: #4285f4;
+            text-decoration: none;
             font-size: 14px;
-            color: #70757a;
+        }
+        
+        .quick-link:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <div class="logo">MůjVyhledávač</div>
+    <!-- Navigační lišta -->
+    <nav class="navbar">
+        <button class="nav-button" onclick="window.history.back()">← Zpět</button>
+        <button class="nav-button" onclick="window.location.href='/'">Domů</button>
+        <div class="logo">MůjVyhledávač</div>
+    </nav>
     
-    <div class="search-container">
-        <form class="search-form" action="https://www.google.com/search" method="get" target="_blank">
-            <input class="search-input" type="text" name="q" placeholder="Zadejte hledaný výraz...">
-            <div class="search-buttons">
-                <button class="search-button" type="submit">Hledat na Google</button>
-                <button class="search-button" type="button" onclick="searchMySite()">Hledat na mém webu</button>
+    <!-- Hlavní obsah s vyhledávačem -->
+    <div class="main-content">
+        <div class="search-container">
+            <form class="search-form" action="https://www.google.com/search" method="get">
+                <input class="search-input" type="text" name="q" placeholder="Zadejte hledaný výraz...">
+                <div class="search-buttons">
+                    <button class="search-button" type="submit">Hledat na Google</button>
+                    <button class="search-button" type="button" onclick="searchMySite()">Hledat na mém webu</button>
+                </div>
+            </form>
+            
+            <div class="quick-links">
+                <a href="https://www.google.com" class="quick-link" target="_blank">Google</a>
+                <a href="https://www.seznam.cz" class="quick-link" target="_blank">Seznam</a>
+                <a href="https://www.youtube.com" class="quick-link" target="_blank">YouTube</a>
+                <a href="https://www.wikipedia.org" class="quick-link" target="_blank">Wikipedia</a>
             </div>
-        </form>
+        </div>
     </div>
-    
-    <footer>
-        © 2023 MůjVyhledávač - Všechna práva vyhrazena
-    </footer>
 
     <script>
         function searchMySite() {
