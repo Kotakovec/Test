@@ -10,6 +10,9 @@
             margin: 0;
             padding: 0;
             background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
         }
         
         /* Navigační lišta */
@@ -20,6 +23,7 @@
             padding: 10px 20px;
             align-items: center;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            flex-shrink: 0;
         }
         
         .nav-button {
@@ -43,66 +47,55 @@
             font-size: 18px;
         }
         
-        /* Hlavní obsah */
-        .main-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 50px;
+        /* Vyhledávací panel */
+        .search-panel {
+            padding: 20px;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            flex-shrink: 0;
         }
         
         .search-container {
-            max-width: 600px;
-            width: 100%;
-            margin-top: 30px;
+            max-width: 800px;
+            margin: 0 auto;
         }
         
         .search-form {
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            width: 100%;
         }
         
         .search-input {
-            width: 100%;
+            flex: 1;
             padding: 12px 20px;
             font-size: 16px;
             border: 1px solid #dfe1e5;
-            border-radius: 24px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
+            border-radius: 24px 0 0 24px;
             outline: none;
         }
         
-        .search-input:hover, .search-input:focus {
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-        }
-        
-        .search-buttons {
-            display: flex;
-            gap: 10px;
-        }
-        
         .search-button {
-            padding: 10px 16px;
-            background-color: #f8f9fa;
-            border: 1px solid #f8f9fa;
-            border-radius: 4px;
-            color: #3c4043;
+            padding: 12px 20px;
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 0 24px 24px 0;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 16px;
         }
         
-        .search-button:hover {
-            border: 1px solid #dadce0;
-            box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+        /* Výsledky v iframe */
+        .results-frame {
+            flex: 1;
+            border: none;
+            background: white;
         }
         
-        /* Odkazy pod vyhledávacím polem */
         .quick-links {
-            margin-top: 30px;
             display: flex;
             gap: 15px;
+            margin-top: 15px;
+            justify-content: center;
         }
         
         .quick-link {
@@ -119,38 +112,50 @@
 <body>
     <!-- Navigační lišta -->
     <nav class="navbar">
-        <button class="nav-button" onclick="window.history.back()">← Zpět</button>
-        <button class="nav-button" onclick="window.location.href='/'">Domů</button>
+        <button class="nav-button" onclick="history.back()">← Zpět</button>
+        <button class="nav-button" onclick="goHome()">Domů</button>
         <div class="logo">MůjVyhledávač</div>
     </nav>
     
-    <!-- Hlavní obsah s vyhledávačem -->
-    <div class="main-content">
+    <!-- Vyhledávací panel -->
+    <div class="search-panel">
         <div class="search-container">
-            <form class="search-form" action="https://www.google.com/search" method="get">
-                <input class="search-input" type="text" name="q" placeholder="Zadejte hledaný výraz...">
-                <div class="search-buttons">
-                    <button class="search-button" type="submit">Hledat na Google</button>
-                    <button class="search-button" type="button" onclick="searchMySite()">Hledat na mém webu</button>
-                </div>
+            <form class="search-form" onsubmit="doSearch(); return false;">
+                <input class="search-input" type="text" id="searchQuery" placeholder="Zadejte hledaný výraz...">
+                <button class="search-button" type="submit">Hledat</button>
             </form>
             
             <div class="quick-links">
-                <a href="https://www.google.com" class="quick-link" target="_blank">Google</a>
-                <a href="https://www.seznam.cz" class="quick-link" target="_blank">Seznam</a>
-                <a href="https://www.youtube.com" class="quick-link" target="_blank">YouTube</a>
-                <a href="https://www.wikipedia.org" class="quick-link" target="_blank">Wikipedia</a>
+                <a href="#" onclick="searchQuick('https://www.google.com')" class="quick-link">Google</a>
+                <a href="#" onclick="searchQuick('https://www.seznam.cz')" class="quick-link">Seznam</a>
+                <a href="#" onclick="searchQuick('https://www.youtube.com')" class="quick-link">YouTube</a>
+                <a href="#" onclick="searchQuick('https://www.wikipedia.org')" class="quick-link">Wikipedia</a>
             </div>
         </div>
     </div>
+    
+    <!-- Výsledky vyhledávání -->
+    <iframe id="resultsFrame" class="results-frame" src="about:blank"></iframe>
 
     <script>
-        function searchMySite() {
-            const query = document.querySelector('.search-input').value;
-            if (query.trim() !== '') {
-                // Toto je příklad - nahraďte '/search' skutečnou adresou pro vyhledávání na vašem webu
-                window.location.href = '/search?q=' + encodeURIComponent(query);
+        function doSearch() {
+            const query = document.getElementById('searchQuery').value.trim();
+            if (query) {
+                const frame = document.getElementById('resultsFrame');
+                frame.src = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
             }
+        }
+        
+        function searchQuick(url) {
+            const frame = document.getElementById('resultsFrame');
+            frame.src = url;
+            return false;
+        }
+        
+        function goHome() {
+            const frame = document.getElementById('resultsFrame');
+            frame.src = 'about:blank';
+            document.getElementById('searchQuery').value = '';
         }
     </script>
 </body>
