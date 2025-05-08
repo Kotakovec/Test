@@ -3,22 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vyhledávač</title>
+    <title>Můj vyhledávač</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
+            text-align: center;
+            margin-top: 100px;
             background-color: #f8f9fa;
         }
         
+        .logo {
+            font-size: 48px;
+            margin-bottom: 30px;
+            color: #4285f4;
+        }
+        
         .search-container {
-            width: 100%;
             max-width: 600px;
-            padding: 20px;
+            margin: 0 auto;
         }
         
         .search-form {
@@ -42,28 +44,58 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
         
+        .search-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
         .search-button {
-            padding: 10px 24px;
-            background-color: #4285f4;
-            color: white;
-            border: none;
+            padding: 10px 16px;
+            background-color: #f8f9fa;
+            border: 1px solid #f8f9fa;
             border-radius: 4px;
+            color: #3c4043;
             cursor: pointer;
             font-size: 14px;
-            font-weight: bold;
         }
         
         .search-button:hover {
-            background-color: #3367d6;
+            border: 1px solid #dadce0;
+            box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+        }
+        
+        footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #70757a;
         }
     </style>
 </head>
 <body>
+    <div class="logo">MůjVyhledávač</div>
+    
     <div class="search-container">
         <form class="search-form" action="https://www.google.com/search" method="get">
-            <input class="search-input" type="text" name="q" placeholder="Zadejte hledaný výraz..." required>
-            <button class="search-button" type="submit">Hledat na Google</button>
+            <input class="search-input" type="text" name="q" placeholder="Zadejte hledaný výraz...">
+            <div class="search-buttons">
+                <button class="search-button" type="submit">Hledat na Google</button>
+                <button class="search-button" type="button" onclick="searchMySite()">Hledat na mém webu</button>
+            </div>
         </form>
     </div>
+    
+    <footer>
+        © 2023 MůjVyhledávač - Všechna práva vyhrazena
+    </footer>
+
+    <script>
+        function searchMySite() {
+            const query = document.querySelector('.search-input').value;
+            if (query.trim() !== '') {
+                // Toto je příklad - nahraďte '/search' skutečnou adresou pro vyhledávání na vašem webu
+                window.location.href = '/search?q=' + encodeURIComponent(query);
+            }
+        }
+    </script>
 </body>
 </html>
