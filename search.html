@@ -80,8 +80,8 @@
     <h2>FrCreator</h2>
     
     <div class="search-container">
-        <form action="https://www.google.com/search" method="get" class="search-box">
-            <input class="search-input" type="text" name="q" placeholder="Zadejte hledaný výraz..." required>
+        <form class="search-box" onsubmit="handleSearch(event)">
+            <input class="search-input" type="text" id="searchQuery" placeholder="Zadejte hledaný výraz..." required>
             <button class="search-button" type="submit">Hledat</button>
         </form>
     </div>
@@ -89,5 +89,20 @@
     <footer>
         © 2023 MůjVyhledávač - Všechna práva vyhrazena
     </footer>
+
+    <script>
+        function handleSearch(event) {
+            event.preventDefault();
+            const query = document.getElementById('searchQuery').value.trim().toLowerCase();
+            
+            // Kontrola zda uživatel zadal nějakou variantu "frcreator"
+            if (query === 'frcreator') {
+                window.location.href = 'https://frcreator.eu';
+            } else {
+                // Normální vyhledávání na Google
+                window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+            }
+        }
+    </script>
 </body>
 </html>
