@@ -76,31 +76,50 @@
     </style>
 </head>
 <body>
-    <h1>FrSearch</h1>
+    <h1>MůjVyhledávač</h1>
+    <h2>FrCreator</h2>
     
     <div class="search-container">
         <form class="search-box" onsubmit="handleSearch(event)">
-            <input class="search-input" type="text" id="searchQuery" placeholder="Zadejte hledaný výraz..." required>
+            <input class="search-input" type="text" id="searchQuery" placeholder="Zadejte hledaný výraz nebo URL..." required>
             <button class="search-button" type="submit">Hledat</button>
         </form>
     </div>
     
     <footer>
-        © 2025 FrSearch - Jakub Koťák
+        © 2023 MůjVyhledávač - Všechna práva vyhrazena
     </footer>
 
     <script>
         function handleSearch(event) {
             event.preventDefault();
-            const query = document.getElementById('searchQuery').value.trim().toLowerCase();
+            let query = document.getElementById('searchQuery').value.trim();
             
-            // Kontrola zda uživatel zadal nějakou variantu "frcreator"
-            if (query === 'frcreator') {
+            // Speciální případ pro "frcreator"
+            if (query.toLowerCase() === 'frcreator') {
                 window.location.href = 'https://frcreator.eu';
+                return;
+            }
+            
+            // Detekce URL adresy
+            if (isValidUrl(query)) {
+                // Přidání https:// pokud chybí
+                if (!query.startsWith('http://') && !query.startsWith('https://')) {
+                    query = 'https://' + query;
+                }
+                window.location.href = query;
             } else {
                 // Normální vyhledávání na Google
                 window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
             }
+        }
+        
+        function isValidUrl(string) {
+            // Jednoduchá detekce URL
+            const pattern = /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w\- .\/?%&=]*)?$/i;
+            return pattern.test(string) || 
+                   string.includes('.') && !string.includes(' ') || 
+                   string.startsWith('www.');
         }
     </script>
 </body>
