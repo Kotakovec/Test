@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Můj vyhledávač</title>
+    <title>MůjVyhledávač</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f8f9fa;
             display: flex;
             flex-direction: column;
             height: 100vh;
@@ -22,8 +21,6 @@
             color: white;
             padding: 10px 20px;
             align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            flex-shrink: 0;
         }
         
         .nav-button {
@@ -32,13 +29,8 @@
             color: white;
             padding: 8px 12px;
             margin-right: 10px;
-            border-radius: 4px;
             cursor: pointer;
             font-size: 14px;
-        }
-        
-        .nav-button:hover {
-            background-color: #2a2a3e;
         }
         
         .logo {
@@ -50,87 +42,74 @@
         /* Vyhledávací panel */
         .search-panel {
             padding: 20px;
-            background: white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            flex-shrink: 0;
+            background: #f1f1f1;
+            text-align: center;
         }
         
-        .search-container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .search-form {
+        .search-box {
             display: flex;
-            width: 100%;
+            justify-content: center;
+            margin-bottom: 15px;
         }
         
         .search-input {
-            flex: 1;
-            padding: 12px 20px;
+            width: 400px;
+            padding: 10px 15px;
             font-size: 16px;
-            border: 1px solid #dfe1e5;
-            border-radius: 24px 0 0 24px;
-            outline: none;
+            border: 1px solid #ccc;
+            border-radius: 4px 0 0 4px;
         }
         
         .search-button {
-            padding: 12px 20px;
+            padding: 10px 20px;
             background-color: #4285f4;
             color: white;
             border: none;
-            border-radius: 0 24px 24px 0;
+            border-radius: 0 4px 4px 0;
             cursor: pointer;
             font-size: 16px;
+        }
+        
+        /* Rychlé odkazy */
+        .quick-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .quick-link {
+            color: #4285f4;
+            text-decoration: none;
         }
         
         /* Výsledky v iframe */
         .results-frame {
             flex: 1;
             border: none;
-            background: white;
-        }
-        
-        .quick-links {
-            display: flex;
-            gap: 15px;
-            margin-top: 15px;
-            justify-content: center;
-        }
-        
-        .quick-link {
-            color: #4285f4;
-            text-decoration: none;
-            font-size: 14px;
-        }
-        
-        .quick-link:hover {
-            text-decoration: underline;
+            width: 100%;
         }
     </style>
 </head>
 <body>
     <!-- Navigační lišta -->
     <nav class="navbar">
-        <button class="nav-button" onclick="history.back()">← Zpět</button>
-        <button class="nav-button" onclick="goHome()">Domů</button>
+        <button class="nav-button" id="backButton">← Zpět</button>
+        <button class="nav-button" id="homeButton">Domů</button>
         <div class="logo">MůjVyhledávač</div>
     </nav>
     
     <!-- Vyhledávací panel -->
     <div class="search-panel">
-        <div class="search-container">
-            <form class="search-form" onsubmit="doSearch(); return false;">
-                <input class="search-input" type="text" id="searchQuery" placeholder="Zadejte hledaný výraz...">
-                <button class="search-button" type="submit">Hledat</button>
-            </form>
-            
-            <div class="quick-links">
-                <a href="#" onclick="searchQuick('https://www.google.com')" class="quick-link">Google</a>
-                <a href="#" onclick="searchQuick('https://www.seznam.cz')" class="quick-link">Seznam</a>
-                <a href="#" onclick="searchQuick('https://www.youtube.com')" class="quick-link">YouTube</a>
-                <a href="#" onclick="searchQuick('https://www.wikipedia.org')" class="quick-link">Wikipedia</a>
-            </div>
+        <div class="search-box">
+            <input type="text" class="search-input" id="searchQuery" placeholder="Zadejte hledaný výraz...">
+            <button class="search-button" id="searchButton">Hledat</button>
+        </div>
+        
+        <div class="quick-links">
+            <a href="#" class="quick-link" data-url="https://www.google.com">Google</a>
+            <a href="#" class="quick-link" data-url="https://www.seznam.cz">Seznam</a>
+            <a href="#" class="quick-link" data-url="https://www.youtube.com">YouTube</a>
+            <a href="#" class="quick-link" data-url="https://www.wikipedia.org">Wikipedia</a>
         </div>
     </div>
     
@@ -138,6 +117,7 @@
     <iframe id="resultsFrame" class="results-frame" src="about:blank"></iframe>
 
     <script>
+        // Funkce pro vyhledávání
         function doSearch() {
             const query = document.getElementById('searchQuery').value.trim();
             if (query) {
@@ -146,17 +126,48 @@
             }
         }
         
-        function searchQuick(url) {
+        // Funkce pro rychlé odkazy
+        function loadQuickLink(url) {
             const frame = document.getElementById('resultsFrame');
             frame.src = url;
-            return false;
         }
         
+        // Funkce pro tlačítko Zpět
+        function goBack() {
+            const frame = document.getElementById('resultsFrame');
+            try {
+                frame.contentWindow.history.back();
+            } catch (e) {
+                console.log("Nelze jít zpět");
+            }
+        }
+        
+        // Funkce pro tlačítko Domů
         function goHome() {
             const frame = document.getElementById('resultsFrame');
             frame.src = 'about:blank';
             document.getElementById('searchQuery').value = '';
         }
+        
+        // Nastavení event listenerů
+        document.getElementById('searchButton').addEventListener('click', doSearch);
+        
+        document.getElementById('searchQuery').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                doSearch();
+            }
+        });
+        
+        document.getElementById('backButton').addEventListener('click', goBack);
+        document.getElementById('homeButton').addEventListener('click', goHome);
+        
+        // Nastavení rychlých odkazů
+        document.querySelectorAll('.quick-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                loadQuickLink(this.getAttribute('data-url'));
+            });
+        });
     </script>
 </body>
 </html>
