@@ -88,6 +88,14 @@
             border: none;
             width: 100%;
         }
+        
+        /* Zpráva pro blokované iframe */
+        .iframe-message {
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -114,27 +122,59 @@
     </div>
     
     <!-- Výsledky vyhledávání -->
-    <iframe id="resultsFrame" class="results-frame" src="about:blank"></iframe>
+    <iframe id="resultsFrame" class="results-frame" src="about:blank" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+    <div id="iframeMessage" class="iframe-message">
+        Tato stránka nelze zobrazit. <a href="#" id="openLinkDirectly">Otevřít přímo</a>
+    </div>
 
     <script>
+        const frame = document.getElementById('resultsFrame');
+        const iframeMessage = document.getElementById('iframeMessage');
+        const openLinkDirectly = document.getElementById('openLinkDirectly');
+        let currentUrl = '';
+        
+        // Funkce pro načtení URL do iframe
+        function loadUrlToFrame(url) {
+            currentUrl = url;
+            iframeMessage.style.display = 'none';
+            frame.style.display = 'block';
+            
+            // Pokusíme se načíst stránku do iframe
+            frame.src = url;
+            
+            // Kontrola, zda se stránka načetla
+            frame.onload = function() {
+                try {
+                    // Pokus o přístup k obsahu iframe - pokud selže, znamená to blokaci X-Frame-Options
+                    const test = frame.contentWindow.document;
+                } catch (e) {
+                    showFrameError();
+                }
+            };
+            
+            frame.onerror = showFrameError;
+        }
+        
+        function showFrameError() {
+            frame.style.display = 'none';
+            iframeMessage.style.display = 'block';
+        }
+        
         // Funkce pro vyhledávání
         function doSearch() {
             const query = document.getElementById('searchQuery').value.trim();
             if (query) {
-                const frame = document.getElementById('resultsFrame');
-                frame.src = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+                loadUrlToFrame(`https://www.google.com/search?q=${encodeURIComponent(query)}`);
             }
         }
         
         // Funkce pro rychlé odkazy
-        function loadQuickLink(url) {
-            const frame = document.getElementById('resultsFrame');
-            frame.src = url;
+        function handleQuickLink(url) {
+            loadUrlToFrame(url);
         }
         
         // Funkce pro tlačítko Zpět
         function goBack() {
-            const frame = document.getElementById('resultsFrame');
             try {
                 frame.contentWindow.history.back();
             } catch (e) {
@@ -144,10 +184,17 @@
         
         // Funkce pro tlačítko Domů
         function goHome() {
-            const frame = document.getElementById('resultsFrame');
             frame.src = 'about:blank';
             document.getElementById('searchQuery').value = '';
+            iframeMessage.style.display = 'none';
+            frame.style.display = 'block';
         }
+        
+        // Otevření linku přímo
+        openLinkDirectly.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.open(currentUrl, '_blank');
+        });
         
         // Nastavení event listenerů
         document.getElementById('searchButton').addEventListener('click', doSearch);
@@ -165,7 +212,7 @@
         document.querySelectorAll('.quick-link').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
-                loadQuickLink(this.getAttribute('data-url'));
+                handleQuickLink(this.getAttribute('data-url'));
             });
         });
     </script>
