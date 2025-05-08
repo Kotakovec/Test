@@ -3,34 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Můj vyhledávač</title>
+    <title>MůjVyhledávač</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            margin-top: 100px;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             background-color: #f8f9fa;
         }
         
-        .logo {
-            font-size: 48px;
-            margin-bottom: 30px;
+        h1 {
             color: #4285f4;
+            margin-bottom: 30px;
+            font-size: 36px;
         }
         
         .search-container {
+            width: 100%;
             max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        .search-form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            padding: 20px;
         }
         
         .search-input {
-            width: 100%;
+            width: 80%;
             padding: 12px 20px;
             font-size: 16px;
             border: 1px solid #dfe1e5;
@@ -44,58 +45,26 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
         
-        .search-buttons {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .search-button {
-            padding: 10px 16px;
-            background-color: #f8f9fa;
-            border: 1px solid #f8f9fa;
-            border-radius: 4px;
-            color: #3c4043;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        
-        .search-button:hover {
-            border: 1px solid #dadce0;
-            box-shadow: 0 1px 1px rgba(0,0,0,0.1);
-        }
-        
         footer {
-            margin-top: 30px;
-            font-size: 14px;
+            margin-top: 50px;
+            font-size: 12px;
             color: #70757a;
+            position: absolute;
+            bottom: 20px;
         }
     </style>
 </head>
 <body>
-    <div class="logo">MůjVyhledávač</div>
+    <h1>MůjVyhledávač</h1>
     
     <div class="search-container">
-        <form class="search-form" action="https://www.google.com/search" method="get">
+        <form action="https://www.google.com/search" method="get">
             <input class="search-input" type="text" name="q" placeholder="Zadejte hledaný výraz...">
-            <div class="search-buttons">
-                <button class="search-button" type="submit">Hledat na Google</button>
-                <button class="search-button" type="button" onclick="searchMySite()">Hledat na mém webu</button>
-            </div>
         </form>
     </div>
     
     <footer>
         © 2023 MůjVyhledávač - Všechna práva vyhrazena
     </footer>
-
-    <script>
-        function searchMySite() {
-            const query = document.querySelector('.search-input').value;
-            if (query.trim() !== '') {
-                // Toto je příklad - nahraďte '/search' skutečnou adresou pro vyhledávání na vašem webu
-                window.location.href = '/search?q=' + encodeURIComponent(query);
-            }
-        }
-    </script>
 </body>
 </html>
