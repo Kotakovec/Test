@@ -20,8 +20,15 @@
         
         h1 {
             color: #4285f4;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
             font-size: 36px;
+        }
+        
+        h2 {
+            color: #5f6368;
+            margin-bottom: 30px;
+            font-size: 18px;
+            font-weight: normal;
         }
         
         .search-container {
@@ -30,19 +37,33 @@
             padding: 20px;
         }
         
+        .search-box {
+            display: flex;
+            justify-content: center;
+        }
+        
         .search-input {
-            width: 80%;
+            width: 70%;
             padding: 12px 20px;
             font-size: 16px;
             border: 1px solid #dfe1e5;
-            border-radius: 24px;
+            border-radius: 24px 0 0 24px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
             outline: none;
         }
         
-        .search-input:hover, .search-input:focus {
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        .search-button {
+            padding: 12px 24px;
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 0 24px 24px 0;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .search-button:hover {
+            background-color: #3367d6;
         }
         
         footer {
@@ -56,10 +77,12 @@
 </head>
 <body>
     <h1>MůjVyhledávač</h1>
+    <h2>FrCreator</h2>
     
     <div class="search-container">
-        <form action="https://www.google.com/search" method="get">
-            <input class="search-input" type="text" name="q" placeholder="Zadejte hledaný výraz...">
+        <form action="https://www.google.com/search" method="get" class="search-box">
+            <input class="search-input" type="text" name="q" placeholder="Zadejte hledaný výraz..." required>
+            <button class="search-button" type="submit">Hledat</button>
         </form>
     </div>
     
