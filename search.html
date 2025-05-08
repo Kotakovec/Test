@@ -3,218 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MůjVyhledávač</title>
+    <title>Můj vyhledávač</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
+            text-align: center;
+            margin-top: 100px;
+            background-color: #f8f9fa;
         }
         
-        /* Navigační lišta */
-        .navbar {
+        .logo {
+            font-size: 48px;
+            margin-bottom: 30px;
+            color: #4285f4;
+        }
+        
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .search-form {
             display: flex;
-            background-color: #1a1a2e;
-            color: white;
-            padding: 10px 20px;
+            flex-direction: column;
             align-items: center;
         }
         
-        .nav-button {
-            background: none;
-            border: none;
-            color: white;
-            padding: 8px 12px;
-            margin-right: 10px;
+        .search-input {
+            width: 100%;
+            padding: 12px 20px;
+            font-size: 16px;
+            border: 1px solid #dfe1e5;
+            border-radius: 24px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            outline: none;
+        }
+        
+        .search-input:hover, .search-input:focus {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        
+        .search-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .search-button {
+            padding: 10px 16px;
+            background-color: #f8f9fa;
+            border: 1px solid #f8f9fa;
+            border-radius: 4px;
+            color: #3c4043;
             cursor: pointer;
             font-size: 14px;
         }
         
-        .logo {
-            font-weight: bold;
-            margin-right: auto;
-            font-size: 18px;
+        .search-button:hover {
+            border: 1px solid #dadce0;
+            box-shadow: 0 1px 1px rgba(0,0,0,0.1);
         }
         
-        /* Vyhledávací panel */
-        .search-panel {
-            padding: 20px;
-            background: #f1f1f1;
-            text-align: center;
-        }
-        
-        .search-box {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 15px;
-        }
-        
-        .search-input {
-            width: 400px;
-            padding: 10px 15px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 4px 0 0 4px;
-        }
-        
-        .search-button {
-            padding: 10px 20px;
-            background-color: #4285f4;
-            color: white;
-            border: none;
-            border-radius: 0 4px 4px 0;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        
-        /* Rychlé odkazy */
-        .quick-links {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
-        
-        .quick-link {
-            color: #4285f4;
-            text-decoration: none;
-        }
-        
-        /* Výsledky v iframe */
-        .results-frame {
-            flex: 1;
-            border: none;
-            width: 100%;
-        }
-        
-        /* Zpráva pro blokované iframe */
-        .iframe-message {
-            padding: 20px;
-            text-align: center;
-            color: #666;
-            display: none;
+        footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #70757a;
         }
     </style>
 </head>
 <body>
-    <!-- Navigační lišta -->
-    <nav class="navbar">
-        <button class="nav-button" id="backButton">← Zpět</button>
-        <button class="nav-button" id="homeButton">Domů</button>
-        <div class="logo">MůjVyhledávač</div>
-    </nav>
+    <div class="logo">MůjVyhledávač</div>
     
-    <!-- Vyhledávací panel -->
-    <div class="search-panel">
-        <div class="search-box">
-            <input type="text" class="search-input" id="searchQuery" placeholder="Zadejte hledaný výraz...">
-            <button class="search-button" id="searchButton">Hledat</button>
-        </div>
-        
-        <div class="quick-links">
-            <a href="#" class="quick-link" data-url="https://www.google.com">Google</a>
-            <a href="#" class="quick-link" data-url="https://www.seznam.cz">Seznam</a>
-            <a href="#" class="quick-link" data-url="https://www.youtube.com">YouTube</a>
-            <a href="#" class="quick-link" data-url="https://www.wikipedia.org">Wikipedia</a>
-        </div>
+    <div class="search-container">
+        <form class="search-form" action="https://www.google.com/search" method="get">
+            <input class="search-input" type="text" name="q" placeholder="Zadejte hledaný výraz...">
+            <div class="search-buttons">
+                <button class="search-button" type="submit">Hledat na Google</button>
+                <button class="search-button" type="button" onclick="searchMySite()">Hledat na mém webu</button>
+            </div>
+        </form>
     </div>
     
-    <!-- Výsledky vyhledávání -->
-    <iframe id="resultsFrame" class="results-frame" src="about:blank" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
-    <div id="iframeMessage" class="iframe-message">
-        Tato stránka nelze zobrazit. <a href="#" id="openLinkDirectly">Otevřít přímo</a>
-    </div>
+    <footer>
+        © 2023 MůjVyhledávač - Všechna práva vyhrazena
+    </footer>
 
     <script>
-        const frame = document.getElementById('resultsFrame');
-        const iframeMessage = document.getElementById('iframeMessage');
-        const openLinkDirectly = document.getElementById('openLinkDirectly');
-        let currentUrl = '';
-        
-        // Funkce pro načtení URL do iframe
-        function loadUrlToFrame(url) {
-            currentUrl = url;
-            iframeMessage.style.display = 'none';
-            frame.style.display = 'block';
-            
-            // Pokusíme se načíst stránku do iframe
-            frame.src = url;
-            
-            // Kontrola, zda se stránka načetla
-            frame.onload = function() {
-                try {
-                    // Pokus o přístup k obsahu iframe - pokud selže, znamená to blokaci X-Frame-Options
-                    const test = frame.contentWindow.document;
-                } catch (e) {
-                    showFrameError();
-                }
-            };
-            
-            frame.onerror = showFrameError;
-        }
-        
-        function showFrameError() {
-            frame.style.display = 'none';
-            iframeMessage.style.display = 'block';
-        }
-        
-        // Funkce pro vyhledávání
-        function doSearch() {
-            const query = document.getElementById('searchQuery').value.trim();
-            if (query) {
-                loadUrlToFrame(`https://www.google.com/search?q=${encodeURIComponent(query)}`);
+        function searchMySite() {
+            const query = document.querySelector('.search-input').value;
+            if (query.trim() !== '') {
+                // Toto je příklad - nahraďte '/search' skutečnou adresou pro vyhledávání na vašem webu
+                window.location.href = '/search?q=' + encodeURIComponent(query);
             }
         }
-        
-        // Funkce pro rychlé odkazy
-        function handleQuickLink(url) {
-            loadUrlToFrame(url);
-        }
-        
-        // Funkce pro tlačítko Zpět
-        function goBack() {
-            try {
-                frame.contentWindow.history.back();
-            } catch (e) {
-                console.log("Nelze jít zpět");
-            }
-        }
-        
-        // Funkce pro tlačítko Domů
-        function goHome() {
-            frame.src = 'about:blank';
-            document.getElementById('searchQuery').value = '';
-            iframeMessage.style.display = 'none';
-            frame.style.display = 'block';
-        }
-        
-        // Otevření linku přímo
-        openLinkDirectly.addEventListener('click', function(e) {
-            e.preventDefault();
-            window.open(currentUrl, '_blank');
-        });
-        
-        // Nastavení event listenerů
-        document.getElementById('searchButton').addEventListener('click', doSearch);
-        
-        document.getElementById('searchQuery').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                doSearch();
-            }
-        });
-        
-        document.getElementById('backButton').addEventListener('click', goBack);
-        document.getElementById('homeButton').addEventListener('click', goHome);
-        
-        // Nastavení rychlých odkazů
-        document.querySelectorAll('.quick-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                handleQuickLink(this.getAttribute('data-url'));
-            });
-        });
     </script>
 </body>
 </html>
